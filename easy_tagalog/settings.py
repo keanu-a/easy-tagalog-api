@@ -93,20 +93,37 @@ WSGI_APPLICATION = 'easy_tagalog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Using Amazon RDS PostgreSQL database
+DATABASES = {
+    'default': {
+        'ENGINE': getenv('SQL_ENGINE'),
+        'NAME': getenv('SQL_DATABASE'),
+        'USER': getenv('SQL_USER'),
+        'PASSWORD': getenv('SQL_PASSWORD'),
+        'HOST': getenv('SQL_HOST'),
+        'PORT': getenv('SQL_PORT')
+    }
+}
+
+# REPLACING WITH A POSTGRESQL DATABASE HOSTED ON AMAZON RDS
 # Using dj_database_url to make things easier
-if DEVELOPMENT_MODE is True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if getenv('DATABASE_URL', None) is None:
-        raise Exception('DATABASE_URL environment variable not defined')
-    DATABASES = {
-        "default": dj_database_url.parse(getenv('DATABASE_URL')),
-    }
+# if DEVELOPMENT_MODE is True:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': getenv('SQL_ENGINE'),
+#             'NAME': getenv('SQL_DATABASE'),
+#             'USER': getenv('SQL_USER'),
+#             'PASSWORD': getenv('SQL_PASSWORD'),
+#             'HOST': getenv('SQL_HOST'),
+#             'PORT': getenv('SQL_PORT')
+#         }
+#     }
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     if getenv('DATABASE_URL', None) is None:
+#         raise Exception('DATABASE_URL environment variable not defined')
+#     DATABASES = {
+#         "default": dj_database_url.parse(getenv('DATABASE_URL')),
+#     }
 
 # Email settings
 EMAIL_BACKEND = 'django_ses.SESBackend'
