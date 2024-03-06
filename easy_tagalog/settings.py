@@ -54,8 +54,10 @@ INSTALLED_APPS = [
     'djoser',
     'storages',
     'social_django',
+    'corsheaders',
+
     'users',
-    'corsheaders'
+    'words',
 ]
 
 MIDDLEWARE = [
